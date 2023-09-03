@@ -23,7 +23,16 @@ pip3 install -r requirements.txt
 pip3 freeze > requirements.txt
 ```
 
+# Install java to read pdf 
+
+```
+to use from tabula import read_pdf
+sudo apt update
+sudo apt install default-jre
+```
+
 # Running
 python src/server.py 
+
 
 

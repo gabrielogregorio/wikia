@@ -2,6 +2,7 @@ import os
 from src.open_md import open_md
 from src.open_txt import open_txt
 from src.open_docx import open_docx
+from src.open_pdf import open_pdf
 
 PATH_TO_FIND_FILES = './public' 
 
@@ -22,6 +23,11 @@ def main():
             
             if(file_path.lower().endswith('.docx')):
                 success, text = open_docx(file_path)
+                print(success, text)
+                continue
+
+            if(file_path.lower().endswith('.pdf')):
+                success, text = open_pdf(file_path)
                 print(success, text)
                 continue
 
