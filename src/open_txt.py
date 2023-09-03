@@ -4,6 +4,6 @@ def open_txt(file: str) -> [bool, str]:
         txt = reader.read()
         reader.close()
     except Exception as e:
-        return [False, "Erro " + str(e)]
+        return [False, "Error " + str(e)]
     else:
         return [True, txt]

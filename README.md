@@ -24,6 +24,6 @@ pip3 freeze > requirements.txt
 ```
 
 # Running
-pip3 install -e .
-dev
+python src/server.py 
+
 
