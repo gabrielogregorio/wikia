@@ -9,50 +9,109 @@ from src.open_video import open_video
 from src.utils.get_text_from_image import get_text_from_image
 from src.utils.get_metadata_from_image import get_metadata_from_image
 
+from src.utils.builder_item import builder_item
+from src.utils.get_file_size import get_file_size
+from src.utils.get_extension_file import get_extension_file
 
 PATH_TO_FIND_FILES = './public' 
 
+files = []
+
 def main():
+
     for root, dirs, filenames in os.walk(PATH_TO_FIND_FILES):
         for filename in filenames:
             file_path = os.path.join(root, filename)
-            _, ext = os.path.splitext(file_path)
+            ext = get_extension_file(file_path)
+            sizeInBytes = get_file_size(file_path)
 
             if(file_path.lower().endswith('.md')):
                 success, text = open_md(file_path)
-                print('md', success, text)
+                
+                files.append(builder_item(
+                        path =  file_path,
+                        name =  filename,
+                        extension =  ext,
+                        extracted_text =  text if success else None,
+                        dimensions =  None,
+                        sizeInBytes =  sizeInBytes,
+                        metadata =  None
+                    ))
                 continue
 
             if(file_path.lower().endswith('.txt')):
                 success, text = open_txt(file_path)
-                print('txt', success, text)
+    
+                files.append(builder_item(
+                        path =  file_path,
+                        name =  filename,
+                        extension =  ext,
+                        extracted_text =  text if success else None,
+                        dimensions =  None,
+                        sizeInBytes =  sizeInBytes,
+                        metadata =  None
+                    ))
                 continue
             
             if(file_path.lower().endswith('.docx')):
                 success, text = open_docx(file_path)
-                print('docx', success, text)
+
+                files.append(builder_item(
+                        path =  file_path,
+                        name =  filename,
+                        extension =  ext,
+                        extracted_text =  text if success else None,
+                        dimensions =  None,
+                        sizeInBytes =  sizeInBytes,
+                        metadata =  None
+                    ))
                 continue
 
             if(file_path.lower().endswith('.pdf')):
                 success, text = open_pdf(file_path)
-                print('pdf', success, text)
+
+                files.append(builder_item(
+                        path =  file_path,
+                        name =  filename,
+                        extension =  ext,
+                        extracted_text =  text if success else None,
+                        dimensions =  None,
+                        sizeInBytes =  sizeInBytes,
+                        metadata =  None
+                    ))
                 continue
 
             if (ext.lower() in [".jpg", ".webp", ".jpeg", ".png", ".gif"]):
                 success_read, sizes = open_images(file_path)
-
                 success_ocr, text_ocr = get_text_from_image(file_path)
                 success_metadata, metadata = get_metadata_from_image(file_path)
                 
-                print('image', success_read, sizes[0], sizes[1], text_ocr, metadata)
+                files.append(builder_item(
+                    path =  file_path,
+                    name =  filename,
+                    extension =  ext,
+                    extracted_text =  text_ocr if success_ocr else None,
+                    dimensions =  {"width": sizes[0], "height": sizes[1]},
+                    sizeInBytes =  sizeInBytes,
+                    metadata =  metadata if success_metadata else None
+                ))
                 continue
 
             if (ext.lower() in [".mp4", ".mov", ".m4v"]):
                 success, sizes = open_video(file_path)
-                print('video', success, sizes[0], sizes[1])
+
+                files.append(builder_item(
+                        path =  file_path,
+                        name =  filename,
+                        extension =  ext,
+                        extracted_text =  None,
+                        dimensions =  {"width": sizes[0], "height": sizes[1]},
+                        sizeInBytes =  sizeInBytes,
+                        metadata =  None
+                    ))                
                 continue
 
             print("file not processed", file_path)
 
-if __name__ == '__main__':
-    main()
+main()
+print(files)
