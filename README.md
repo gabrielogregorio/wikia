@@ -36,6 +36,8 @@ sudo apt update
 sudo apt install tesseract-ocr
 sudo apt install tesseract-ocr-por
 
+# down tesseract
+pkill tesseract
 
 
 # Running
