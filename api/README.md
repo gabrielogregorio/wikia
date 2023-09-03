@@ -10,11 +10,16 @@ python3
 # configure venv in ubuntu 22
 sudo apt install python3.10-venv
 
+rm -rf env_wikia
+
 # create env var
 python3 -m venv env_wikia
 
 # active venv
 source env_wikia/bin/activate
+
+# reset paths
+export PYTHONPATH=$PYTHONPATH:$(pwd)
 
 # install dependencies
 pip3 install -r requirements.txt
