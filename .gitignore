@@ -1,1 +1,5 @@
 public
+env_wikia
+my_project.egg-info
+server.egg-info
+__pycache__
