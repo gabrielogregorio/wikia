@@ -6,6 +6,8 @@ from src.open_pdf import open_pdf
 from src.open_images import open_images
 from src.open_video import open_video
 
+from src.utils.get_text_from_image import get_text_from_image
+
 
 PATH_TO_FIND_FILES = './public' 
 
@@ -37,7 +39,9 @@ def main():
 
             if (ext.lower() in [".jpg", ".webp", ".jpeg", ".png", ".gif"]):
                 success, sizes = open_images(file_path)
-                print('image', success, sizes[0], sizes[1])
+
+                success, text_ocr = get_text_from_image(file_path)
+                print('image', success, sizes[0], sizes[1], text_ocr)
                 continue
 
             if (ext.lower() in [".mp4", ".mov", ".m4v"]):

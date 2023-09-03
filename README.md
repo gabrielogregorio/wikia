@@ -31,6 +31,13 @@ sudo apt update
 sudo apt install default-jre
 ```
 
+# Instal OCR
+sudo apt update
+sudo apt install tesseract-ocr
+sudo apt install tesseract-ocr-por
+
+
+
 # Running
 python src/server.py 
 
