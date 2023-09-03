@@ -16,7 +16,7 @@ def open_images(file_path: str, filename: str, ext: str, sizeInBytes: int) -> di
             path=file_path,
             name=filename,
             extension=ext,
-            extracted_text=text_ocr if success_ocr else None,
+            extracted_text=str(text_ocr) if success_ocr else None,
             dimensions={"width": width, "height": height},
             sizeInBytes=sizeInBytes,
             metadata=metadata if success_metadata else None

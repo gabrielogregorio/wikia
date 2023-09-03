@@ -12,7 +12,7 @@ def open_md(file_path: str, filename: str, ext: str, sizeInBytes: int) -> dict:
             path =  file_path,
             name =  filename,
             extension =  ext,
-            extracted_text =  text,
+            extracted_text =  str(text),
             dimensions =  None,
             sizeInBytes =  sizeInBytes,
             metadata =  None
