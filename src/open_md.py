@@ -1,10 +1,25 @@
-def open_md(file: str) -> [bool, str]:
+from src.utils.builder_item import builder_item
+from src.utils.default_handler import default_handler
+ 
+
+def open_md(file_path: str, filename: str, ext: str, sizeInBytes: int) -> dict:
     try:
-        reader = open(file, "r", encoding="utf-8")
-        txt = reader.read()
+        reader = open(file_path, "r", encoding="utf-8")
+        text = reader.read()
         reader.close()
-        return [True, txt]
-        
+
+        return builder_item(
+            path =  file_path,
+            name =  filename,
+            extension =  ext,
+            extracted_text =  text,
+            dimensions =  None,
+            sizeInBytes =  sizeInBytes,
+            metadata =  None
+        )
+    
     except Exception as e:
-        return [False, "Error " + str(e)]
+        print("error on read {} error {}".format(file_path, str(e)))
+        return default_handler(file_path, filename, ext, sizeInBytes)
+
     
