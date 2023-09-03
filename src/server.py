@@ -7,6 +7,7 @@ from src.open_images import open_images
 from src.open_video import open_video
 
 from src.utils.get_text_from_image import get_text_from_image
+from src.utils.get_metadata_from_image import get_metadata_from_image
 
 
 PATH_TO_FIND_FILES = './public' 
@@ -38,10 +39,12 @@ def main():
                 continue
 
             if (ext.lower() in [".jpg", ".webp", ".jpeg", ".png", ".gif"]):
-                success, sizes = open_images(file_path)
+                success_read, sizes = open_images(file_path)
 
-                success, text_ocr = get_text_from_image(file_path)
-                print('image', success, sizes[0], sizes[1], text_ocr)
+                success_ocr, text_ocr = get_text_from_image(file_path)
+                success_metadata, metadata = get_metadata_from_image(file_path)
+                
+                print('image', success_read, sizes[0], sizes[1], text_ocr, metadata)
                 continue
 
             if (ext.lower() in [".mp4", ".mov", ".m4v"]):
