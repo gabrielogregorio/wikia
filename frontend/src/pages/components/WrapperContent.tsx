@@ -8,7 +8,7 @@ export const WrapperContent = ({ children, name }: IWrapperContentProps): ReactE
   const [nameIsExpanded, setNameIsExpanded] = useState<boolean>(false);
 
   return (
-    <div className="w-full h-full md:hover:scale-105 transition-all duration-150 cursor-pointer md:px-2 py-2 bg-gray-600/10 touch-manipulation">
+    <div className="md:hover:scale-105 transition-all duration-150 cursor-pointer md:px-1 py-1 bg-gray-600/10 touch-manipulation">
       <div className={` ${nameIsExpanded ? '' : 'overflow-hidden text-ellipsis'}`}>
         <button
           type="button"

@@ -1,5 +1,6 @@
 import { useFetchWiki } from '@/hooks/useFetchWiki';
 import type { ReactElement } from 'react';
+import Masonry from 'react-masonry-css';
 import React, { useMemo, useState } from 'react';
 import { getTags } from '@/pages/utils';
 import { useProcessFilters } from '@/pages/useProcessFilters';
@@ -9,23 +10,12 @@ import { useIntersectObserver } from '@/pages/useIntersectObserver';
 
 const ID_TRIGGER_NEW_ITEMS = 'id_intersect_observer';
 
-const ITEMS_PER_PAGE = 25;
+const ITEMS_PER_PAGE = 10;
 
 const ONE_GRID_COL = 1;
+const TWO_GRID_COL = 2;
 const THREE_GRID_COL = 3;
 const SIX_GRID_COL = 6;
-
-const getGridStyleBySelectGrid = (numberGridCols: number): string => {
-  if (numberGridCols === ONE_GRID_COL) {
-    return 'grid-cols-1';
-  }
-
-  if (numberGridCols === THREE_GRID_COL) {
-    return 'grid-cols-3';
-  }
-
-  return 'grid-cols-6';
-};
 
 export const BaseScreens = (): ReactElement => {
   const { dataWiki, errorMessageWiki, isLoadingWiki } = useFetchWiki();
@@ -99,6 +89,15 @@ export const BaseScreens = (): ReactElement => {
 
             <button
               type="button"
+              onClick={(): void => setNumberGridCols(TWO_GRID_COL)}
+              className={`${
+                numberGridCols === TWO_GRID_COL ? 'text-gray-50' : 'text-gray-400'
+              } px-3 py-2 touch-manipulation`}>
+              {TWO_GRID_COL}
+            </button>
+
+            <button
+              type="button"
               onClick={(): void => setNumberGridCols(THREE_GRID_COL)}
               className={`${
                 numberGridCols === THREE_GRID_COL ? 'text-gray-50' : 'text-gray-400'
@@ -119,17 +118,23 @@ export const BaseScreens = (): ReactElement => {
       </div>
 
       <div className="w-full px-0 md:w-[80%] mt-4">
-        <div className={`grid gap-4 ${getGridStyleBySelectGrid(numberGridCols)} animate-fadeIn touch-manipulation`}>
+        {itemsPaginated.length && !isLoadingWiki && !errorMessageWiki ? (
+          <div className="flex items-center justify-center mt-2 px-2">
+            {offset} arquivos sendo exibidos de {dataFiltered?.length} (ao todo existem {dataWiki?.length} arquivos).
+          </div>
+        ) : undefined}
+        
+        <div className={` mt-2  animate-fadeIn touch-manipulation`}>
           {itemsPaginated.length && !isLoadingWiki && !errorMessageWiki ? (
-            <div className="flex items-center justify-center mt-2 px-2">
-              {offset} arquivos sendo exibidos de {dataFiltered?.length} (ao todo existem {dataWiki?.length} arquivos).
-            </div>
-          ) : undefined}
-          {itemsPaginated.length && !isLoadingWiki && !errorMessageWiki
-            ? itemsPaginated.map((item) => {
+            <Masonry
+              breakpointCols={numberGridCols}
+              className="my-masonry-grid"
+              columnClassName="my-masonry-grid_column">
+              {itemsPaginated.map((item) => {
                 return <RenderItem data={item} key={item.path} />;
-              })
-            : undefined}
+              })}
+            </Masonry>
+          ) : undefined}
 
           <div className="flex items-center justify-center mt-2 px-2">
             {itemsPaginated.length === 0 && !isLoadingWiki && !errorMessageWiki ? <div>Sem dados</div> : undefined}
