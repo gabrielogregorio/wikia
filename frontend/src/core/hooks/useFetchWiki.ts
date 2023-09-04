@@ -1,7 +1,6 @@
 import type { IWikiItem } from '@/services/wikia';
 import { WikiaService } from '@/services/wikia';
-import { useMemo } from 'react';
-import { useCustomSwr } from '@/libs/swr';
+import { useEffect, useState } from 'react';
 
 interface IUseFetchWikiType {
   dataWiki: IWikiItem[] | undefined;
@@ -10,11 +9,26 @@ interface IUseFetchWikiType {
 }
 
 export const useFetchWiki = (): IUseFetchWikiType => {
-  const { data, error } = useCustomSwr('wikia-key', () => WikiaService.fetch());
+  const [isLoadingWiki, setIsLoadingWiki] = useState<boolean>(false);
+  const [errorMessageWiki, setErrorMessageWiki] = useState<string>('');
+  const [dataWiki, setDataWiki] = useState<IWikiItem[] | undefined>(undefined);
 
-  const dataWiki = useMemo(() => data || undefined, [data]);
-  const errorMessageWiki = error ? 'Error on get wiki items' : '';
-  const isLoadingWiki = !data && !error;
+  useEffect(() => {
+    setIsLoadingWiki(true);
+    setErrorMessageWiki('');
+    setDataWiki(undefined);
+
+    WikiaService.fetch()
+      .then((res) => {
+        setDataWiki(res);
+      })
+      .catch(() => {
+        setErrorMessageWiki('Error on get wiki items');
+      })
+      .finally(() => {
+        setIsLoadingWiki(false);
+      });
+  }, []);
 
   return {
     dataWiki,

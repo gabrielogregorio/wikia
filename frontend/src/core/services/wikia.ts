@@ -5,7 +5,7 @@ export interface IWikiItem {
   name: string;
   type: string;
   extracted_text: string | null;
-  dimensions: string | null;
+  dimensions: { width: number, height: number } | null;
   sizeInBytes: number;
   metadata: { [key: string]: string } | null;
 }

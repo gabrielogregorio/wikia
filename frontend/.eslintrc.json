@@ -101,6 +101,8 @@
           "revalidate",
           "Swr",
           "Axios",
+          "Unknow",
+          "pdf",
           "emojis",
           "Sao",
           "deduping",

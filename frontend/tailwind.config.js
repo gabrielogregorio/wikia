@@ -13,6 +13,9 @@ module.exports = {
       animation: {
         fadeIn: 'fadeIn .3s ease-in-out',
       },
+      backgroundImage: {
+        homepage: "url('/ocean-4346633_1920.webp')",
+      },
       keyframes: () => ({
         fadeIn: {
           '0%': { opacity: 0 },
