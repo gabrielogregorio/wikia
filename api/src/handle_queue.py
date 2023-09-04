@@ -21,7 +21,7 @@ from src.utils.start_threads import start_threads
 from src.utils.waiting_finish_threads import waiting_finish_threads
 
 
-PATH_TO_FIND_FILES = './public' 
+PATH_TO_FIND_FILES = './public/' 
 
 files = []
 list_paths = search_all_file_paths(PATH_TO_FIND_FILES)
