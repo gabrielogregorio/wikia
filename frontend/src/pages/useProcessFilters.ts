@@ -1,5 +1,6 @@
 import { discoveryTag } from '@/pages/utils';
 import type { IWikiItem } from '@/services/wikia';
+import { normalizeNfd } from './normalizeNfd';
 
 const filterOnlySelectTags = (tagsSelected: string[], dataWiki: IWikiItem[]): IWikiItem[] => {
   if (!tagsSelected.length || tagsSelected.includes('All')) {
@@ -16,9 +17,10 @@ const filterOnlyFilteredText = (search: string, dataWiki: IWikiItem[]): IWikiIte
   if (!search.trim()) {
     return dataWiki;
   }
+  let searchNormalized = normalizeNfd(search)
 
   return dataWiki.filter((item) => {
-    return item.path.toString().includes(search);
+    return normalizeNfd(item.path).includes(searchNormalized);
   });
 };
 

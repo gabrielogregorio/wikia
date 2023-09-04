@@ -1,6 +1,7 @@
 import type { IWikiItem } from '@/services/wikia';
 import { WikiaService } from '@/services/wikia';
 import { useEffect, useState } from 'react';
+import { randomizeArray } from '../../pages/randomizeArray';
 
 interface IUseFetchWikiType {
   dataWiki: IWikiItem[] | undefined;
@@ -20,7 +21,7 @@ export const useFetchWiki = (): IUseFetchWikiType => {
 
     WikiaService.fetch()
       .then((res) => {
-        setDataWiki(res);
+        setDataWiki(randomizeArray(res));
       })
       .catch(() => {
         setErrorMessageWiki('Error on get wiki items');

@@ -4,6 +4,12 @@ import React, { useMemo, useState } from 'react';
 import { getTags } from '@/pages/utils';
 import { useProcessFilters } from '@/pages/useProcessFilters';
 import { RenderItem } from '@/pages/renderItem';
+import { usePagination } from '@/pages/usePagination';
+import { useIntersectObserver } from '@/pages/useIntersectObserver';
+
+const ID_TRIGGER_NEW_ITEMS = 'id_intersect_observer';
+
+const ITEMS_PER_PAGE = 25;
 
 const ONE_GRID_COL = 1;
 const THREE_GRID_COL = 3;
@@ -28,6 +34,14 @@ export const BaseScreens = (): ReactElement => {
   const [tagsSelected, setTagsSelected] = useState<string[]>([]);
   const [numberGridCols, setNumberGridCols] = useState<number>(THREE_GRID_COL);
 
+  const dataFiltered = useProcessFilters(tagsSelected, search, dataWiki || []);
+
+  const { offset, nextPage } = usePagination(0, ITEMS_PER_PAGE);
+
+  useIntersectObserver(ID_TRIGGER_NEW_ITEMS, nextPage);
+
+  const itemsPaginated = dataFiltered.slice(0, offset);
+
   const handleClickTag = (tag: string): void => {
     setTagsSelected((prev) => {
       if (prev.includes(tag)) {
@@ -37,16 +51,6 @@ export const BaseScreens = (): ReactElement => {
       return [...prev, tag];
     });
   };
-
-  if (isLoadingWiki) {
-    return <div key="is-loading">loading...</div>;
-  }
-
-  if (errorMessageWiki) {
-    <div key="error-message">Error: {errorMessageWiki}</div>;
-  }
-
-  const dataFiltered = useProcessFilters(tagsSelected, search, dataWiki || []);
 
   return (
     <div key="data" className="flex flex-col items-center animate-fadeIn">
@@ -110,9 +114,19 @@ export const BaseScreens = (): ReactElement => {
 
       <div className="w-[80%] mt-4">
         <div className={`grid gap-4 ${getGridStyleBySelectGrid(numberGridCols)} animate-fadeIn`}>
-          {dataFiltered.map((item) => {
-            return <RenderItem data={item} key={item.path} />;
-          })}
+          {itemsPaginated.length && !isLoadingWiki && !errorMessageWiki
+            ? itemsPaginated.map((item) => {
+                return <RenderItem data={item} key={item.path} />;
+              })
+            : undefined}
+
+          {itemsPaginated.length === 0 && !isLoadingWiki && !errorMessageWiki ? <div>Sem dados</div> : undefined}
+
+          {isLoadingWiki ? <div key="is-loading">loading...</div> : undefined}
+
+          {errorMessageWiki ? <div key="error-message">Error: {errorMessageWiki}</div> : undefined}
+
+          <div className="bg-red-400 w-full h-7 block" id={ID_TRIGGER_NEW_ITEMS} />
         </div>
       </div>
     </div>
