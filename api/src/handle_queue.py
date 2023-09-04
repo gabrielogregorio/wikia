@@ -27,7 +27,7 @@ files = []
 list_paths = search_all_file_paths(PATH_TO_FIND_FILES)
 total_files = len(list_paths)
 
-NUM_THREADS = 400
+NUM_THREADS = 250
 
 work_queue = queue.Queue()
 
