@@ -10,7 +10,7 @@ import { useIntersectObserver } from '@/pages/useIntersectObserver';
 
 const ID_TRIGGER_NEW_ITEMS = 'id_intersect_observer';
 
-const ITEMS_PER_PAGE = 10;
+const ITEMS_PER_PAGE = 25;
 
 const ONE_GRID_COL = 1;
 const TWO_GRID_COL = 2;
@@ -123,7 +123,7 @@ export const BaseScreens = (): ReactElement => {
             {offset} arquivos sendo exibidos de {dataFiltered?.length} (ao todo existem {dataWiki?.length} arquivos).
           </div>
         ) : undefined}
-        
+
         <div className={` mt-2  animate-fadeIn touch-manipulation`}>
           {itemsPaginated.length && !isLoadingWiki && !errorMessageWiki ? (
             <Masonry

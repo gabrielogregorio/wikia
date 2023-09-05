@@ -36,6 +36,15 @@ lock = threading.Lock()
 file_handlers = {
     '.md': open_md,
     '.txt': open_txt,
+    '.py': open_txt,
+    '.js': open_txt,
+    '.css': open_txt,
+    '.jsx': open_txt,
+
+    '.ts': open_txt,
+    '.tsx': open_txt,
+    '.json': open_txt,
+
     '.docx': open_docx,
     '.pdf': open_pdf,
 
